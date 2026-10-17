@@ -1,0 +1,238 @@
+---
+title: "RExercise#2_delrosario.Rmd"
+author: "Vince Ryan Del Rosario"
+date: "2026-09-30"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### Part A - Arithmetic Operations
+TODO: Store 17 in a variable called a, and 5 in a variable called b
+```{r}
+# TODO: Store 17 in a variable called a, and 5 in a variable called b
+# Then print the results of: a + b, a - b, a * b, a / b
+
+a <- 17
+b <- 5
+
+print(a + b)
+print(a - b)
+print(a * b)
+print(a / b)
+
+```
+[1] 22
+[1] 12
+[1] 85
+[1] 3.4
+
+Question #1: Run 17 / 5, 17 %% 5, and 17 %/% 5 side by side. In your own words, explain how these three results relate to each other mathematically.
+
+Answer:
+-17 / 5 = 3.4 gives the exact quotient, 
+-17 %% 5 = 2 gives the remainder, 
+-and 17 %/% 5 = 3 gives the whole-number quotient, so 17 = (17 %/% 5 × 5) + (17 %% 5).
+
+TODO: Using the same a and b, compute and print a %% b and a %/% b
+```{r}
+# TODO: Using the same a and b, compute and print a %% b and a %/% b
+# a %% b = remainder of a / b
+# a %/% b = whole-number (integer) division
+
+a %% b 
+a %/% b
+```
+[1] 2
+[1] 3
+
+TODO: Print 2 raised to the power of 10 using the ^ operator
+```{r}
+
+2^10
+```
+[1] 1024
+
+
+Question #2: Predict the output of 10 %% 3 and 10 %/% 3 before running the code. Were you correct? If not, explain what you misunderstood.
+Answer:
+-I predicted 10 %% 3 = 1 and 10 %/% 3 = 3, and I was correct because 10 divided by 3 has a remainder of 1 and a whole-number quotient of 3.
+
+
+### Part B - Basic Data Types
+
+TODO: Use typeof() to check the type of each of x, y, z, w, v
+```{r}
+x <- 42
+y <- 42L
+z <- "42"
+w <- TRUE
+v <- 3 + 2i   
+typeof(x)
+typeof(y)
+typeof(z)
+typeof(w)
+typeof(v)
+```
+[1] "double"
+[1] "integer"
+[1] "character"
+[1] "logical"
+[1] "complex"
+
+TODO: Use class() to check the class of each of x, y, z, w, v
+```{r}
+class(x)
+class(y)
+class(z)
+class(w)
+class(v)
+```
+class(x)
+class(y)
+class(z)
+class(w)
+class(v)
+
+TODO: Use mode() to check the class of each of x, y, z, w, v
+```{r}
+mode(x)
+mode(y)
+mode(z)
+mode(w)
+mode(v)
+```
+[1] "numeric"
+[1] "numeric"
+[1] "character"
+[1] "logical"
+[1] "complex"
+
+Question #3: x <- 42 and y <- 42L look almost identical, but typeof(x) and typeof(y) give different answers. Explain the difference in your own words.
+
+Answer:
+-`x <- 42` is stored as a double (numeric), while `y <- 42L` is stored specifically as an integer because the `L` tells R to use integer type.
+
+Question #4: Is typeof() ever different from class() and from mode() for the same object? Look at your results above and explain any case where this happens (or, if you did not see one, explain what you would expect for a matrix or factor).
+
+Answer:
+-Yes; a factor can have `typeof()` as `"integer"` while `class()` is `"factor"` and `mode()` is `"numeric"`, because these functions describe different aspects of the object.
+
+### Part C — Type Conversion (20 min)
+
+TODO: Convert num_string to a numeric value using as.numeric()
+```{r}
+num_string <- "123"
+typeof(num_string)
+class(num_string)
+mode(num_string)
+```
+[1] "character"
+[1] "character"
+[1] "character"
+
+TODO: Convert the number 0 and the number 1 to logical using as.logical()
+```{r}
+as.logical(0)
+as.logical(1)
+```
+[1] FALSE
+[1] TRUE
+
+TODO: Try converting bad_string to numeric using as.numeric()
+```{r}
+bad_string <- "hello123"
+as.numeric(bad_string)
+```
+[1] NA
+
+Question #5: When you ran the conversion-fail chunk, R produced NA and a warning instead of stopping with an error.
+
+Why do you think R is designed to give a warning here rather than crashing the whole script?
+Answer:
+-R gives a warning so the program can keep running.
+
+
+What are the risks of this behavior if you don’t read your warnings?
+Answer:
+-You might miss the warning and use incorrect results.
+
+
+Question #6: as.logical(0) and as.logical(1) convert to FALSE and TRUE.
+
+What do you think as.logical(2) and as.logical(-1)` will produce?
+Answer:
+-Both will produce TRUE.
+
+Test it, then explain the rule R seems to be following.
+Answer:
+-In R, 0 = FALSE, and any other number = TRUE.
+
+### Part D - Strings, paste(), and paste0()
+
+TODO: Print first_name and last_name using print() and/or cat()
+```{r}
+first_name <- "Juan"
+last_name <- "Dela Cruz"
+
+print(first_name)
+print(last_name)
+```
+[1] "Juan"
+[1] "Dela Cruz"
+
+TODO: Use paste() to combine first_name and last_name into a full name
+TODO: Use paste0() to do the same, and compare the two results
+```{r}
+paste(first_name, last_name)
+paste0(first_name, last_name)
+```
+[1] "Juan Dela Cruz"
+[1] "JuanDela Cruz"
+
+TODO: Use paste() with the argument sep = "-" to join first_name and
+```{r}
+paste(first_name, last_name, sep = "-")
+```
+
+Question #7: 
+
+-paste() separates strings with a space by default, while paste0() combines strings without a separator.
+
+Question #8: 
+
+-No, it did not cause an error because paste0() automatically converts the numeric variable age to a character string before combining it with the text, demonstrating type coercion in R.
+
+### Part E — Critical Thinking Challenge
+
+TODO: Predict, then test: what is the result of "5" + 5 in R?
+Run it and read the error message carefully.
+```{r}
+"5" + 5
+```
+Error: non-numeric argument to binary operator
+
+TODO: Now fix the code above so that "5" + 5 correctly evaluates to 10
+using an appropriate conversion function.
+```{r}
+as.numeric("5") + 5
+```
+Result: 10
+
+Question #9: Some programming languages automatically convert "5" + 5 into 10 without an error. R does not.
+-R requires explicit conversion to prevent unexpected results and ensure the programmer knows the data types being used, making the code more accurate and easier to understand.
+
+Question #10: Suppose a classmate writes a script that reads a column of “numbers” from a text file. The column looks numeric, but when they try sum() on it, R throws an error. Based on everything in this lab (types, typeof()/class()/mode(), conversion, warnings), write a short paragraph explaining what likely went wrong and the steps you’d take to diagnose and fix it.
+-The column was likely read as character data instead of numbers, causing sum() to produce an error. I would use typeof(), class(), and mode() to check the data type, then use as.numeric() to convert the values. I would check for warnings and NA values caused by invalid entries. After cleaning the data, I would run sum() again.
+
+
+
+# Conclusion
+In 3–4 sentences, summarize what you learned about how R handles different data types, and why understanding typeof()/class() and conversion functions matters before doing arithmetic or combining data.
+
+-I learned that R has different data types, such as numeric, integer, character, logical, and complex. The functions `typeof()`, `class()`, and `mode()` help identify how R stores and classifies data. Conversion functions like `as.numeric()` and `as.logical()` change values from one type to another, but invalid conversions can produce warnings and `NA` values. Understanding data types helps prevent errors when performing calculations or combining numbers with text.
+
+
+  
