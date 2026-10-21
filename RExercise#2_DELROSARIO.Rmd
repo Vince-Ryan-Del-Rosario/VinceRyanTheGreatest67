@@ -1,0 +1,207 @@
+---
+title: "RExercise#2"
+author: "Vince Ryan Del Rosario"
+date: "2026-09-30"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#Part A - Arithmetic Operations
+TODO: Store 17 in a variable called a, and 5 in a variable called b
+```{r}
+# TODO: Store 17 in a variable called a, and 5 in a variable called b
+# Then print the results of: a + b, a - b, a * b, a / b
+
+a <- 17
+b <- 5
+
+print(a + b)
+print(a - b)
+print(a * b)
+print(a / b)
+
+```
+
+
+Q#1: Run 17 / 5, 17 %% 5, and 17 %/% 5 side by side. In your own words, explain how these three results relate to each other mathematically.
+-17 / 5 = 3.4 gives the exact quotient, 
+-17 %% 5 = 2 gives the remainder, 
+-and 17 %/% 5 = 3 gives the whole-number quotient, so 17 = (17 %/% 5 × 5) + (17 %% 5).
+
+TODO: Using the same a and b, compute and print a %% b and a %/% b
+```{r}
+# TODO: Using the same a and b, compute and print a %% b and a %/% b
+# a %% b = remainder of a / b
+# a %/% b = whole-number (integer) division
+
+a %% b 
+a %/% b
+```
+
+TODO: Print 2 raised to the power of 10 using the ^ operator
+```{r}
+
+2^10
+```
+[1] 1024
+
+
+Q#2: Predict the output of 10 %% 3 and 10 %/% 3 before running the code. Were you correct? If not, explain what you misunderstood.
+I predicted that 10 %% 3 would return 1 and 10 %/% 3 would return 3. I was correct because %% gives the remainder, while %/% gives the whole-number quotient.
+
+
+#Part B - Basic Data Types
+TODO: Use typeof() to check the type of each of x, y, z, w, v
+```{r}
+x <- 42
+y <- 42L
+z <- "42"
+w <- TRUE
+v <- 3 + 2i   
+typeof(x)
+typeof(y)
+typeof(z)
+typeof(w)
+typeof(v)
+```
+
+
+TODO: Use class() to check the class of each of x, y, z, w, v
+```{r}
+class(x)
+class(y)
+class(z)
+class(w)
+class(v)
+```
+class(x)
+class(y)
+class(z)
+class(w)
+class(v)
+
+TODO: Use mode() to check the class of each of x, y, z, w, v
+```{r}
+mode(x)
+mode(y)
+mode(z)
+mode(w)
+mode(v)
+```
+
+
+Q#3: x <- 42 and y <- 42L look almost identical, but typeof(x) and typeof(y) give different answers. Explain the difference in your own words.
+`x <- 42` is stored as a double (numeric), while `y <- 42L` is stored and the `L` tells R to use integer type.
+
+Q#4: Is typeof() ever different from class() and from mode() for the same object? Look at your results above and explain any case where this happens (or, if you did not see one, explain what you would expect for a matrix or factor).
+Yes; a factor can have `typeof()` as `"integer"` while `class()` is `"factor"` and `mode()` is `"numeric"`
+
+#Part C — Type Conversion (20 min)
+TODO: Convert num_string to a numeric value using as.numeric()
+```{r}
+num_string <- "123"
+typeof(num_string)
+class(num_string)
+mode(num_string)
+```
+
+
+TODO: Convert the number 0 and the number 1 to logical using as.logical()
+```{r}
+as.logical(0)
+as.logical(1)
+```
+
+
+TODO: Try converting bad_string to numeric using as.numeric()
+```{r}
+bad_string <- "hello123"
+as.numeric(bad_string)
+```
+
+
+Q#5: When you ran the conversion-fail chunk, R produced NA and a warning instead of stopping with an error.
+Why do you think R is designed to give a warning here rather than crashing the whole script?
+R gives a warning to notify users of an issue while allowing the program to continue running.
+
+
+What are the risks of this behavior if you don’t read your warnings?
+Answer:
+-You might miss the warning and use incorrect results.
+
+
+Q#6: as.logical(0) and as.logical(1) convert to FALSE and TRUE.
+
+What do you think as.logical(2) and as.logical(-1)` will produce?
+Both will produce TRUE.
+
+Test it, then explain the rule R seems to be following.
+In R, 0 = FALSE, and any other number = TRUE.
+
+#Part D - Strings, paste(), and paste0()
+TODO: Print first_name and last_name using print() and/or cat()
+```{r}
+first_name <- "Juan"
+last_name <- "Dela Cruz"
+
+print(first_name)
+print(last_name)
+```
+
+
+TODO: Use paste() to combine first_name and last_name into a full name
+TODO: Use paste0() to do the same, and compare the two results
+```{r}
+paste(first_name, last_name)
+paste0(first_name, last_name)
+```
+
+TODO: Use paste() with the argument sep = "-" to join first_name and
+```{r}
+paste(first_name, last_name, sep = "-")
+```
+
+Question #7:paste() and paste0() produced different results for the same two strings. Explain exactly why, referencing what each function does by default.
+paste() joins strings with a space by default, while paste0() joins them without a separator.
+
+Question #8:In the strings-numbers chunk, you combined a character string with a numeric variable (age) using paste0() without first converting age to a string. 
+No error occurred because paste0() automatically converts the numeric variable age to text before joining it with the string. This shows type coercion in R.
+
+#Part E — Critical Thinking Challenge
+TODO: Predict, then test: what is the result of "5" + 5 in R?
+Run it and read the error message carefully.
+```{r}
+"5" + 5
+```
+
+
+TODO: Now fix the code above so that "5" + 5 correctly evaluates to 10
+using an appropriate conversion function.
+```{r}
+as.numeric("5") + 5
+```
+
+
+Q#9: Some programming languages automatically convert "5" + 5 into 10 without an error. R does not.
+R uses explicit conversion to avoid unexpected results, improve accuracy, and make code easier to understand.
+
+
+
+Q#10: Suppose a classmate writes a script that reads a column of “numbers” from a text file. The column looks numeric, but when they try sum() on it, R throws an error. Based on everything in this lab (types, typeof()/class()/mode(), conversion, warnings), write a short paragraph explaining what likely went wrong and the steps you’d take to diagnose and fix it.
+The column was likely stored as text, causing sum() to fail. I would check its data type, convert it using as.numeric(), and handle any warnings or NA values before running sum() again.
+
+
+
+#Conclusion
+In 3–4 sentences, summarize what you learned about how R handles different data types, and why understanding typeof()/class() and conversion functions matters before doing arithmetic or combining data.
+
+I learned that R has different data types, and functions like typeof(), class(), and mode() help identify them. Conversion functions change data types, but invalid conversions may produce warnings and NA values. Understanding data types helps avoid errors in calculations and data handling.
+
+
+
+
+
+  
