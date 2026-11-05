@@ -1,5 +1,5 @@
 ---
-title: "RExercise#3_Tignero"
+title: "RExercise#3_DelRosario"
 author: "Vince Ryan Del Rosario"
 date: "2026-10-14"
 output: html_document

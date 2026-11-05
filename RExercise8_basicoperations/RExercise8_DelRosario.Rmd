@@ -1,0 +1,282 @@
+---
+title: "RExercise#8_DelRosario"
+author: "Vince Ryan Del Rosario"
+date: "2026-11-04"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+### R Lab: Basic Operations - sort(), rank(), and order()
+## Question #1
+a. Create a vector.
+```{r}
+scores <- c(Ana = 78, Ben = 92, Cid = 85, Dex = 92, Eli = 67, Fay = 88, Gio = 74)
+scores
+```
+Answer:
+
+Ana Ben Cid Dex Eli Fay Gio 
+ 78  92  85  92  67  88  74 
+ 
+b. Sort the scores in ascending order and descending order. What is the output?
+```{r}
+sort(scores)
+sort(scores, decreasing = TRUE)
+```
+Answer: 
+
+Eli Gio Ana Cid Fay Ben Dex 
+ 67  74  78  85  88  92  92 
+Ben Dex Fay Cid Ana Gio Eli 
+ 92  92  88  85  78  74  67 
+ 
+c. Print your sorted result from sort-ascending. Check whether the # names (“Ana”, “Ben”, …) stayed attached to their correct values.
+```{r}
+sorted_asc <- sort(scores)
+print(sorted_asc)
+```
+Answer:
+
+Eli Gio Ana Cid Fay Ben Dex 
+ 67  74  78  85  88  92  92 
+
+
+d. Create another vectors:
+subjects <- c("Science", "Math", "English", "Filipino", "PE") incomplete <- c(85, NA, 90, 70, NA, 95)
+```{r}
+subjects   <- c("Science", "Math", "English", "Filipino", "PE")
+incomplete <- c(85, NA, 90, 70, NA, 95)
+```
+
+
+e. Sort subjects alphabetically using sort()
+```{r}
+sort(subjects)
+```
+Answer:
+
+[1] "English"  "Filipino" "Math"     "PE"       "Science" 
+
+f. Sort incomplete using sort(). Observe what happens to the NA
+```{r}
+sort(incomplete)
+sort(incomplete, na.last = TRUE)
+```
+Answer:
+
+[1] 70 85 90 95
+[1] 70 85 90 95 NA NA
+
+## Question #2:
+When you sorted scores, did the names stay correctly attached to their original values?
+Explain why this matters: if you were sorting exam scores to find the top performer, what would go wrong if the names did NOT follow their values?
+
+Answer:
+-Yes, the names stayed attached to their original values. If they did not, the top score would pair with the wrong student, and the wrong person would be named top performer.
+
+## Question #3:
+-By default, sort() silently removes NA values instead of showing them or throwing an error.
+-Why might this default behavior be dangerous if you were reporting “the lowest score” in a dataset with missing data, without first checking for NA values?.
+
+Answer:
+-sort() drops the NA values with no warning, so the “lowest score” shown is only the lowest among the scores that exist. A missing entry could be the true lowest, and the report would hide that gap.
+
+## Question #4:
+Use order(scores) and print the result. Compare this output to the sort(scores) output. What is the difference?
+```{r}
+order(scores)
+sort(scores)
+```
+Answer:
+
+[1] 5 7 1 3 6 2 4
+Eli Gio Ana Cid Fay Ben Dex 
+ 67  74  78  85  88  92  92 
+ 
+-Yes, they match. order() lists the positions in sorted sequence, and indexing pulls the values from those positions.
+
+
+a. Use the result of order(scores) to index scores itself: # Compare this to sort(scores) – they should produce the same values.
+Do they have the same values? Explain briefly.
+```{r}
+scores[order(scores)]
+```
+Answer:
+
+Eli Gio Ana Cid Fay Ben Dex 
+ 67  74  78  85  88  92  92 
+ 
+-Yes, they match. order() lists the positions in sorted sequence, and indexing pulls the values from those positions.
+
+## Question #5:
+Create a dataframe from these vectors name = c("Ana", "Ben", "Cid", "Dex", "Eli", "Fay", "Gio") score = c(78, 92, 85, 92, 67, 88, 74) section = c("A", "B", "A", "B", "A", "B", "A")
+What is the output?
+```{r}
+students <- data.frame(
+  name    = c("Ana", "Ben", "Cid", "Dex", "Eli", "Fay", "Gio"),
+  score   = c(78, 92, 85, 92, 67, 88, 74),
+  section = c("A", "B", "A", "B", "A", "B", "A")
+)
+students
+```
+Answer:
+
+  name score section
+1  Ana    78       A
+2  Ben    92       B
+3  Cid    85       A
+4  Dex    92       B
+5  Eli    67       A
+6  Fay    88       B
+7  Gio    74       A
+
+a. Reorder the ENTIRE students data frame by score using students[order(students$score), ]
+```{r}
+students[order(students$score), ]
+```
+Answer:
+
+  name score section
+5  Eli    67       A
+7  Gio    74       A
+1  Ana    78       A
+3  Cid    85       A
+6  Fay    88       B
+2  Ben    92       B
+4  Dex    92       B
+
+b. Reorder students by score in DESCENDING order.
+```{r}
+students[order(students$score, decreasing = TRUE), ]
+```
+Answer:
+
+  name score section
+2  Ben    92       B
+4  Dex    92       B
+6  Fay    88       B
+3  Cid    85       A
+1  Ana    78       A
+7  Gio    74       A
+5  Eli    67       A
+
+
+## Question #6:
+-sort(scores) and scores[order(scores)] produce the same final values, but they work completely differently under the hood.
+-In your own words, explain what order(scores) actually returns (look at the raw numbers it gives you), and why that output is useless on its own unless you use it to index something.
+```{r}
+order(scores)
+```
+Answer:
+
+[1] 5 7 1 3 6 2 4
+
+-order(scores) returns the position of each value in sorted sequence, so the smallest score sits at position 5, the next at position 7, and so on. These are only positions, not scores, so they mean nothing until you use them to index a vector or table.
+
+## Question #7:
+-Explain why sort() alone could NOT have been used to reorder the whole students data frame by score (try to imagine running sort(students) and think about what “sorting a table” would even mean).
+-Why is order() the correct tool whenever you need to keep multiple related columns lined up with each other?
+
+Answer:
+
+Error in sort.int(x, na.last = na.last, decreasing = decreasing, ...) : 
+  'x' must be atomic
+  
+-sort() works on a single vector, so it fails on a data frame, and sorting each column alone would scramble the rows. order() returns row positions that index the whole table, so every column moves together and each row stays intact.
+
+## Question #8:
+TODO: Use rank(scores) and print the result. 
+Print scores, then rank(scores), side by side (e.g., using
+cbind(scores, rank(scores))) so you can see which score got which rank
+```{r}
+rank(scores)
+cbind(scores, rank = rank(scores))
+```
+Answer:
+
+Ana Ben Cid Dex Eli Fay Gio 
+3.0 6.5 4.0 6.5 1.0 5.0 2.0 
+
+    scores rank
+Ana     78  3.0
+Ben     92  6.5
+Cid     85  4.0
+Dex     92  6.5
+Eli     67  1.0
+Fay     88  5.0
+Gio     74  2.0
+
+-Ben and Dex each received a rank of 6.5. The two scores tie for positions 6 and 7, and R’s default (ties.method = "average") gives each the average of those positions, (6 + 7) / 2 = 6.5, so neither gets an unfair advantage.
+
+a. Ranking the output for Ben and Dex
+```{r}
+sales <- data.frame(
+  employee   = c("Rey", "Sam", "Tin", "Uma", "Val"),
+  units_sold = c(120, 145, 145, 98, 130)
+)
+sales$rank <- rank(-sales$units_sold)
+sales
+```
+Answer:
+
+ employee units_sold rank
+1      Rey        120  4.0
+2      Sam        145  1.5
+3      Tin        145  1.5
+4      Uma         98  5.0
+5      Val        130  3.0
+
+a. Ranking the output for Ben and Dex
+Answer:
+-Ben and Dex each received a rank of 6.5.
+
+b. Ben and Dex both scored 92, the highest score in the class, but under the default rank() they did NOT both simply get rank “1” or rank “7” as a whole number. Explain exactly what value they received by default and why R computes it that way for tied values.
+
+-By default, rank() ranks from lowest to highest, so the top two scores take positions 6 and 7. Since both scored 92, R uses ties.method = "average" and gives each the average of the positions they share, (6 + 7) / 2 = 6.5, so neither gets an unfair advantage.
+
+
+
+## Question 8:
+a. Create a data frame
+```{r}
+sales <- data.frame(
+  employee   = c("Rey", "Sam", "Tin", "Uma", "Val"),
+  units_sold = c(120, 145, 145, 98, 130)
+)
+
+sales$rank <- rank(-sales$units_sold)
+sales
+```
+  employee units_sold rank
+1      Rey        120  4.0
+2      Sam        145  1.5
+3      Tin        145  1.5
+4      Uma         98  5.0
+5      Val        130  3.0
+
+-The negative sign reverses the ranking so the highest units sold get rank 1, and Sam and Tin tie at 1.5.
+
+
+b. Reorder the entire sales data frame using order() so it is displayed from HIGHEST units_sold to LOWEST.
+```{r}
+sales[order(-sales$units_sold), ]
+# or: sales[order(sales$units_sold, decreasing = TRUE), ]
+```
+Ansswer:
+
+  employee units_sold rank
+2      Sam        145  1.5
+3      Tin        145  1.5
+5      Val        130  3.0
+1      Rey        120  4.0
+4      Uma         98  5.0
+
+## Question #9:
+-In this challenge, you used rank() to determine standing and order() to determine display order.
+-Could you have used order() alone to solve the entire problem (both awarding ranks AND reordering the table)?
+-Explain what order() is missing that rank() provides, using your own words rather than repeating the definitions
+
+Answer:
+-No, order() alone could not do both jobs. It only gives the row positions for arranging the table and never a standing for each employee, and it puts tied sellers like Sam and Tin in separate positions, while rank() gives them the same shared standing of 1.5.
