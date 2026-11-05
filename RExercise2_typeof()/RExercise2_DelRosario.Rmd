@@ -1,6 +1,6 @@
 ---
-title: "RExercise#2_tignero.Rmd"
-author: "Raydric Tignero"
+title: "RExercise#2_DelRosario.Rmd"
+author: "Vince Ryan Del Rosario"
 date: "2026-09-30"
 output: html_document
 ---
