@@ -1,0 +1,84 @@
+---
+title: "Vectors and List Exercises"
+author: "Vince Ryan Del Rosario"
+date: "2026-10-21"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### Part A — Creating Vectors and List:
+Question #1:
+
+```{r}
+Age <- c(34, 28, 22, 36, 27, 18, 52, 39, 42, 29,
+         35, 31, 27, 22, 37, 34, 19, 20, 57, 49,
+         50, 37, 46, 25, 17, 37, 43, 53, 41, 51,
+         35, 24, 33, 41, 53, 40, 18, 44, 38, 41,
+         48, 27, 39, 19, 30, 61, 54, 58, 26, 18)
+
+Age
+length(Age)
+min(Age)
+max(Age)
+Age[13:18]
+Age[33:35]
+Age[-c(10, 20, 30, 40)]
+Age[c(4, 14, 24, 44)] <- 0
+Age
+```
+ # Question #2:
+
+R has actually lots of built-in datasets.
+For example, the rivers data “gives the lengths (in miles) of 141 “major” rivers in North America, as compiled by the US Geological Survey”.
+Use data(rivers)
+Get the number of elements (length) in rivers, their sum (sum), mean (mean), median(median), variance(var), standard deviation(sd), minimum (min) and maximum (max).
+
+```{r}
+data(rivers)
+
+river_stats <- c(
+  length = length(rivers),
+  sum    = sum(rivers),
+  mean   = mean(rivers),
+  median = median(rivers),
+  var    = var(rivers),
+  sd     = sd(rivers),
+  min    = min(rivers),
+  max    = max(rivers)
+)
+
+river_stats
+
+```
+#Question #3:
+
+The table below gives the 25 most powerful celebrities and their annual pay as ranked by the editions of Forbes magazine and as listed on the Forbes.com website.
+
+```{r}
+celebrity <- c("Oprah Winfrey", "Beyoncé", "James Patterson", "Phil McGraw", "Tiger Woods","Howard Stern", "Steven Spielberg", "George Lucas", "Donald Trump","Jerry Bruckheimer", "J.K. Rowling")
+
+power_ranking <- c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11)
+
+pay <- c(275, 80, 70, 80, 115, 70, 130, 170, 50, 100, 300)
+
+power_ranking[celebrity == "J.K. Rowling"] <- 15
+pay[celebrity == "J.K. Rowling"] <- 90
+```
+#Question #4:
+
+Create a list of ten (10) vegetables you ate during your lifetime. If none, just list down the vegetables in your mind.
+
+
+```{r}
+vegetables <- list("Pumpkin", "Patola", "Ampalaya", "Malunggay", "Sitaw", "Pepper", "Beans", "Mais", "Onion", "Garlic")
+
+vegetables <- append(vegetables, list("Cucumber", "Radish"))
+
+length(vegetables)
+
+vegetables <- append(vegetables,list("Okra", "Bambooshoot", "Talong", "Patola"),after = 5)
+length(vegetables)
+```
