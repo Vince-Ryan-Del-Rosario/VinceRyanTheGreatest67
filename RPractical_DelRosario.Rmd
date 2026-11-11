@@ -1,0 +1,264 @@
+---
+title: "R Programming Practical Examination"
+author: "Vince Ryan Del Rosario"
+date: "November 11, 2026"
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+---
+
+# Part A: Basic Operations
+
+A1 Create `v` as the sequence 5, 10, 15, ..., 50 using `seq()`. Print its length, sum and mean.
+```{r A1}
+v <- seq(5, 50, by = 5)
+v
+length(v)
+sum(v)
+mean(v)
+```
+
+A2 Create `w` that repeats the vector `c(1, 2, 3)` four times, and `z` that repeats each element of `c(1, 2, 3)` four times. Print both.
+```{r A2}
+w <- rep(c(1, 2, 3), times = 4)
+z <- rep(c(1, 2, 3), each = 4)
+w
+z
+```
+A3 Compute and print: the remainder of 17 divided by 5, the integer division of 17 by 5, 2 to the power of 10, the square root of 144, and pi rounded to 3 decimals.
+```{r A3}
+17 %% 5
+17 %/% 5
+2^10
+sqrt(144)
+round(pi, 3)
+```
+
+A4 Given `a <- c(2, 4, 6, 8)` and `b <- c(1, 3, 5, 7)`, print `a + b`, `a * b`, the logical comparison `a > b`, and the dot product `sum(a * b)`.
+```{r A4}
+a <- c(2, 4, 6, 8)
+b <- c(1, 3, 5, 7)
+a + b
+a * b
+a > b
+sum(a * b)
+```
+
+A5 Use `paste()` to produce "Student-1" "Student-2" "Student-3". Then identify the datatype of 42, 42L, "42", 411i, and TRUE. What is its output?
+```{r A5}
+paste("Student", 1:3, sep = "-")
+class(42)
+class(42L)
+class("42")
+class(411i)   # if the 4th value on your paper is plain 411, use class(411)
+class(TRUE)
+# Output of paste: "Student-1" "Student-2" "Student-3"
+# Types: numeric, integer, character, complex, logical
+```
+
+# Part B: Data Frames and Conditional Statements
+
+B1 Create a data frame `students` with 8 rows and these columns (use `stringsAsFactors = FALSE`; sex is "M" or "F"):
+```{r B1}
+students <- data.frame(
+  id         = 1:8,
+  name       = c("Alice","Bruno","Chen","Dana","Elif","Farid","Grace","Hiro"),
+  sex        = c("F","M","M","F","F","M","F","M"),
+  section    = c("A","B","A","C","B","C","A","B"),
+  midterm    = c(78, 85, 92, 67, 74, 88, 95, 59),
+  final      = c(82, 79, 96, 71, 80, 91, 93, 65),
+  attendance = c(95, 88, 100, 72, 90, 85, 98, 60),
+  stringsAsFactors = FALSE
+)
+students
+```
+
+B2 Display the structure, dimensions, column names, and summary of `students`.
+```{r B2}
+str(students)
+dim(students)
+names(students)
+summary(students)
+```
+
+B3 Add a column `average` = the mean of `midterm` and `final` for each student, rounded to 1 decimal.
+```{r B3}
+students$average <- round((students$midterm + students$final) / 2, 1)
+students
+```
+
+B4 Add a logical column `passed` that is TRUE when `average >= 70` **and** `attendance >= 75`.
+```{r B4}
+students$passed <- students$average >= 70 & students$attendance >= 75
+students
+```
+
+B5 Using `ifelse()`, add a column `standing` with these values based on `average`:
+
+- "Honors" if average >= 90
+- "Good" if average >= 75 (and below 90)
+- "Needs Support" otherwise
+
+```{r B5}
+students$standing <- ifelse(students$average >= 90, "Honors",
+                     ifelse(students$average >= 75, "Good", "Needs Support"))
+students
+```
+
+B6 Write a function `classify(score)` that uses an if / else if / else chain and returns "Distinction" for 85 or above, "Merit" for 70 to 84, "Pass" for 50 to 69, and "Fail" below 50. Test it with `sapply(c(90, 73, 55, 40), classify)` and print the result.
+```{r B6}
+classify <- function(score) {
+  if (score >= 85) {
+    "Distinction"
+  } else if (score >= 70) {
+    "Merit"
+  } else if (score >= 50) {
+    "Pass"
+  } else {
+    "Fail"
+  }
+}
+result <- sapply(c(90, 73, 55, 40), classify)
+print(result)
+# "Distinction" "Merit" "Pass" "Fail"
+```
+
+# Part C: rbind() and cbind()
+
+C1 Create a data frame `new_students` with two students. Its columns must match the original, including `average`, `passed` and `standing`, computed the same way:
+
+- id 9, Ines, F, section C, midterm 81, final 84, attendance 92
+- id 10, Jamal, M, section A, midterm 70, final 68, attendance 80
+
+Use `rbind()` to append them to `students`, saving the result as `students_all`.
+```{r C1}
+new_students <- data.frame(
+  id         = c(9, 10),
+  name       = c("Ines", "Jamal"),
+  sex        = c("F", "M"),
+  section    = c("C", "A"),
+  midterm    = c(81, 70),
+  final      = c(84, 68),
+  attendance = c(92, 80),
+  stringsAsFactors = FALSE
+)
+new_students$average  <- round((new_students$midterm + new_students$final) / 2, 1)
+new_students$passed   <- new_students$average >= 70 & new_students$attendance >= 75
+new_students$standing <- ifelse(new_students$average >= 90, "Honors",
+                         ifelse(new_students$average >= 75, "Good", "Needs Support"))
+
+students_all <- rbind(students, new_students)
+students_all
+```
+
+C2 Create the numeric vector `quiz <- c(8, 7, 10, 6, 7, 9, 10, 5, 8, 6)`. Use `cbind()` to attach it to `students_all` as a column named `quiz`. Confirm the result is still a data frame with `class()`.
+```{r C2}
+quiz <- c(8, 7, 10, 6, 7, 9, 10, 5, 8, 6)
+students_all <- cbind(students_all, quiz = quiz)
+students_all
+class(students_all)   # "data.frame"
+```
+
+C3 Create the matrix `m <- cbind(midterm = students_all$midterm, final = students_all$final)` and use `rbind()` to append a final row containing the column means, labelled "mean".
+```{r C3}
+m <- cbind(midterm = students_all$midterm, final = students_all$final)
+m <- rbind(m, mean = colMeans(m))
+m
+```
+
+C4 In a comment (2-3 sentences), explain what error `rbind()` produces if the data frames have different column names, and show the output if you safely catch it with `tryCatch()`.
+```{r C4}
+# rbind() on data frames requires the same column names (and number of columns).
+# If the names differ, it stops with an error such as "names do not match
+# previous names", so the frames cannot be stacked.
+bad <- data.frame(id = 11, fullname = "Zed", stringsAsFactors = FALSE)
+tryCatch(rbind(students, bad),
+         error = function(e) {
+           message("rbind failed: ", conditionMessage(e))
+           NULL
+         })
+```
+
+# Part D: Subsetting
+
+Use `students_all` (with `quiz`) for all questions. Print every result.
+
+D1 Extract the `name` column in three ways: `$`, `[["name"]]`, and `[ , "name"]`.
+```{r D1}
+students_all$name
+students_all[["name"]]
+students_all[, "name"]
+```
+
+D2 Extract rows 2 to 5 and only the columns `name`, `midterm`, `final`.
+```{r D2}
+students_all[2:5, c("name", "midterm", "final")]
+```
+
+D3 Using logical subsetting, select students with `attendance` above 90.
+```{r D3}
+students_all[students_all$attendance > 90, ]
+```
+
+D4 Using `subset()`, select students of sex "F" in section "A" or "C" whose `final` is at least 75; return only `name`, `section` and `final`.
+```{r D4}
+subset(students_all,
+       sex == "F" & section %in% c("A", "C") & final >= 75,
+       select = c(name, section, final))
+```
+
+D5 Use `which.max()` and `which.min()` to report the name of the student with the highest and lowest `average`.
+```{r D5}
+students_all$name[which.max(students_all$average)]   # highest
+students_all$name[which.min(students_all$average)]   # lowest
+```
+
+**D6** Sort `students_all` by `average` in descending order, then print the top 3 rows.
+```{r D6}
+sorted <- students_all[order(students_all$average, decreasing = TRUE), ]
+head(sorted, 3)
+```
+
+# Part E: Basic Factors
+
+E1 Convert `section` and `sex` in `students_all` to factors with `factor()`. Print `levels()` of each.
+```{r E1}
+students_all$section <- factor(students_all$section)
+students_all$sex     <- factor(students_all$sex)
+levels(students_all$section)
+levels(students_all$sex)
+```
+
+E2 Use `table()` to count students per `sex` and per `section`. Try the two-way table of sex by section: `table(students_all$sex, students_all$section)`. What is the output?
+```{r E2}
+table(students_all$sex)
+table(students_all$section)
+table(students_all$sex, students_all$section)
+# Output of the two-way table: rows = sex (F, M), columns = section (A, B, C)
+#      A B C
+#   F  2 1 2
+#   M  2 2 1
+```
+
+E3 Print `as.integer()` of the `sex` factor. In a comment, explain what the integers represent.
+```{r E3}
+as.integer(students_all$sex)
+# The integers are the internal codes of the factor levels:
+# 1 = "F" and 2 = "M" (levels are sorted alphabetically).
+```
+
+E4 Create a new factor `sex_label` from `sex` using `factor()` with `levels = c("F", "M")` and `labels = c("Female", "Male")`. Add it to `students_all` and print its `levels()`.
+```{r E4}
+students_all$sex_label <- factor(students_all$sex,
+                                 levels = c("F", "M"),
+                                 labels = c("Female", "Male"))
+levels(students_all$sex_label)
+```
+
+E5 Print `summary()` of `sex_label`. Then, using logical subsetting and `mean()`, print the mean `average` for each level of `sex_label`.
+```{r E5}
+summary(students_all$sex_label)
+mean(students_all$average[students_all$sex_label == "Female"])
+mean(students_all$average[students_all$sex_label == "Male"])
+```
